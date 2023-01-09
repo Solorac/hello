@@ -1,0 +1,30 @@
+[package]
+name = "hello"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+wasm-bindgen = "0.2.83"
+
+# Enable a small amount of optimization in debug mode
+[profile.dev]
+opt-level = 1
+
+# Enable high optimizations for dependencies (incl. Bevy), but not for our code:
+[profile.dev.package."*"]
+opt-level = 3
+
+# Enable on release build to increase performance, but also increase compile times
+[profile.release]
+lto = "thin"
+
+[lib]
+name = "lib_main"           # The name of the target.
+path = "src\\main.rs"    # The source file of the target.
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "bin_main"
+path = "src\\main.rs"    # The source file of the target.
